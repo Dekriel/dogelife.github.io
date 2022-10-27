@@ -1,0 +1,142 @@
+<head>
+	<meta name='viewport'
+          content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <link rel="stylesheet" 
+    	  href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script type="text/javascript">
+		var startBalance = 25;
+		var maxRounds = 300;
+		var bestAverageWinTurn = 59;
+		function updateTextInput(val) {
+          document.getElementById('bet').innerHTML="£" + val; 
+        }
+        function flipCoin()
+        {
+        	return Math.random() > 0.6 ? "Tails" : "Heads";
+        }
+        function gameOver(msg)
+        {
+        	get('controls').style.visibility = 'hidden';
+        	get('status').innerHTML = "Game over - " + msg + "<br /> To play again, refresh the page.";
+        }
+        function winEvent()
+        {
+			var msg = "You win! <br />";
+			var turnsPlayed = maxRounds - get("roundsLeft").innerHTML;
+			console.log(get('roundsLeft').innerHTML);
+			if (turnsPlayed < bestAverageWinTurn)
+			{
+				msg += "You beat the expected performance of the Kelly strategy by "
+				    + (bestAverageWinTurn - turnsPlayed) + " turns!";
+			}
+			else
+			{
+				msg += "On average, Kelly reaches 250 " +  (turnsPlayed - bestAverageWinTurn)
+				    + " turns faster";
+			}
+			gameOver(msg);
+        }
+        function makeBet(side, size)
+        {
+        	if (get('roundsLeft').innerHTML)
+        	{
+	        	var slider = get("slider");
+	        	var balance = parseInt(slider.max);
+	        	var result = flipCoin();
+	        	get('roundsLeft').innerHTML -= 1;
+
+	    		if (side.localeCompare(result) == 0)
+	    		{
+	    			balance += size;
+	    			get("status").innerHTML = result + ", you win!";
+	    			if (balance >= startBalance * 10)
+	    			{
+	    				winEvent();
+	    			}
+	    		}
+				else
+				{
+					balance -= size;
+					get('status').innerHTML = result + ", you lose";
+					if(balance == 0)
+					{
+						gameOver("you went bust");
+					}
+				}
+
+				slider.value = balance / 10;
+				slider.max = balance;
+		    	get("balance").innerHTML = "£" + balance;
+		    	get("bet").innerHTML = "£" + slider.value;
+		    	if (get('roundsLeft').innerHTML <= 0)
+		    	{
+		    		gameOver("your final score is " + balance);
+		    	}
+        	}
+        }
+        function get(id)
+        {
+        	return document.getElementById(id);
+        }
+        function init(startBalance, maxRounds)
+        {
+        	get('balance').innerHTML = "£" + startBalance;
+        	get('slider').max = startBalance;
+        	get('slider').value = startBalance / 10;
+        	get('roundsLeft').innerHTML = maxRounds;
+        	get('bet').innerHTML = "£" + (startBalance / 10);
+        	get('welcomeMessage').innerHTML = 
+        			"Move the slider to set your bet sizing and pick heads or tails.<br />"
+				+	"The coin has a 60% chance of being heads, and a 40% chance of being tails."
+				+	"<br />"
+				+	"Can you get a balance of £" + (startBalance * 10)
+				+   " in under " + maxRounds + " attempts?<br />"
+				+	"Bets pay out 1:1 - if I bet £1 and win, I get £2 back.";
+        }
+        function addToSlider(x)
+        {
+        	var slider = get('slider');
+        	console.log(slider.value);
+        	slider.value = (parseInt(slider.value) + x);
+        	get('bet').innerHTML = "£" + slider.value;
+        }
+	</script>
+</head>
+<body onload = "init(startBalance, maxRounds)" style = "max-width:500;margin-left:10px">
+	<h1>Are You a Terrible Tosser?</h1>
+	<div>
+		<p style = "font-weight:bold;display: inline;"> Balance:</p>
+		<p id = "balance" style = "display: inline;"></p>
+		<br>
+		<p style = "font-weight:bold;display: inline;"> Rounds Left: </p> 
+		<p id = "roundsLeft" style = "display: inline;"></p>
+		<br>
+		<p style = "font-weight:bold;display: inline;"> Bet:</p> 
+		<p id = "bet" style = "display: inline;"></p>
+	</div>
+	<p id = 'welcomeMessage'></p>
+    <p id = "status" style = "font-weight:bold">Ready? Let's Go!</p>
+	<div id='controls'>
+		<div>
+			<a class="btn-floating waves-effect btn-small waves-light blue" onclick="addToSlider(-1)" style = "margin-left:30px">
+			 	<i class="material-icons">remove</i>
+			 </a>
+			<input type="range" min="0" class="slider" id="slider", onchange="updateTextInput(this.value)" 
+				style = "vertical-align:middle;max-width:250px;max-height:10px;">
+			 <a class="btn-floating btn-small waves-effect waves-light blue" onclick="addToSlider(1)">
+			 	<i class="material-icons">add</i>
+			 </a>
+		<div>
+		<div style="max-width:370">
+			<button type = "button" onclick='makeBet("Heads", parseInt(get("slider").value))'
+				class="waves-effect waves-light btn"
+				style="margin-left:10px"> Heads </button>
+			<button type = "button" onclick='makeBet("Tails", parseInt(get("slider").value))'
+				class="waves-effect waves-light btn"
+				style = "float:right"> Tails </button>
+		</div>
+	</div>
+</body>
