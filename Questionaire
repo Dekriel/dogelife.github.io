@@ -1,0 +1,67 @@
+print("Hello! Welcome to the Dogecoin quiz, test your knowledge on it!")
+
+inputt = string(input("What is your name?")
+inputt = 0
+print("Cool")
+
+
+input1 = input("points = if incorrect question 0 if correct 20. You Ready?")
+
+question1 = input(" When was Dogecoin created? 1. 2013 2. 2016 ")
+
+if question1.lower() == "2016":
+    print("Wrong")
+    inputt += 0
+    question2 = input("Who is the founder of Dogecoin? 1. Jonathon Scott 2. Billy Marcus")
+
+elif question1.lower() == "2013":
+      print("correct")
+      inputt += 20
+      question2 = input("Who is the founder of Dogecoin? 1. Jonathon Scott 2. Billy Marcus")
+
+
+    if question2.lower() == "jonathon scott":
+        print("wrong")
+        inputt += 0
+        question3 = input(" What was Dogecoin's best year? 1. 2021 2. 2016 ")
+
+
+
+    elif question2.lower() == "billy marcus":
+          print("correct")
+          inputt += 20
+          question3 = input(" What was Dogecoin's best year? 1. 2021 2. 2016 ")
+
+         if question3.lower() == "2016":
+         print("wrong")
+         inputt += 0
+         question4 = input("What is the name of the doge that appears in each and every dogecoin? 1. Kabosu 2.ShuMigun")
+          
+
+
+
+         elif question3.lower() == "2021":
+         print("correct")
+         inputt += 20
+          question4 = input("What is the name of the the doge that appears in each and every dogecoin? 1. Kabosu 2. ShuMigun")
+          
+
+
+          if question4.lower() == "kabosu":
+          print("correct")
+          inputt += 20
+          print("Thanks for playing!")
+          
+
+          elif question4.lower() == "shumigun":
+          print("wrong")
+          inputt += 0
+          print("Thanks for playing!")
+          
+
+
+
+
+          
+
+          
