@@ -17,11 +17,27 @@
             height: 50px;
             width: 200px;
         }
+
+        .img1placement {
+            height: 200px;
+            width: 150px;
+        }
     </style>
 </head>
 <body>
     <center><h1>Welcome to dogelife :)</h1></center>
-    <center><button class="comic aspect-1">Make a character</button></center>
-    <center><button class="comic aspect-1">How to play</button></center>
+    <center><button class="comic aspect-1" onclick="startgame()">Make a character</button></center>
+    <center><button class="comic aspect-1" onclick="redirecthowto()">How to play</button></center>
+    <img src="/static/doge.png" class="img1placement" style="position:absolute; right:150px; top:10px;"/>
+    <img src="/static/doge.png" class="img1placement" style="position:absolute; left:150px; top:10px;"/>
+    <script>
+        function redirecthowto() {
+          location.href = 'howto';
+        }
+
+        function startgame() {
+            location.href = 'main';
+        }
+    </script>
 </body>
 </html>
