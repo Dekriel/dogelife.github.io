@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <script>
+            function get(x) {
+                return document.getElementById(x);
+            }
+            async function roll(times) {
+                if (times == 0) {return;}
+                else if (times == 1) await new Promise(r => setTimeout(r, 500)); 
+                var img = get("img");
+                var x = Math.random() * 4 - 2;
+                var y = Math.random() * 4 - 2;
+                img.style = "transform: translate(" + x + "em, " + y + "em);";
+                var n = Math.floor(Math.random() * 6 + 1);
+                var src = "./Dice Game_files/" + n;
+                img.src = src;
+                await new Promise(r => setTimeout(r, 1000 / times)); 
+                roll(times -1)
+            }
+        </script>
+    </head>
+    <body>    
+        <button onClick=roll(50) style="border: 0; background: transparent;">
+            <img src="tux.png" id="img">
+        </buttom>
+    </body>
+</html>
